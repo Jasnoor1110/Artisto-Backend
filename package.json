@@ -1,0 +1,31 @@
+{
+  "name": "artisto-backend",
+  "version": "1.0.0",
+  "description": "this is artisto-backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon V1.0.0/server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jasnoor1110/Artisto-Backend.git"
+  },
+  "author": "capstone66",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jasnoor1110/Artisto-Backend/issues"
+  },
+  "homepage": "https://github.com/Jasnoor1110/Artisto-Backend#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.1",
+    "express-pino-logger": "^7.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.16",
+    "pino": "^7.11.0"
+  }
+}
