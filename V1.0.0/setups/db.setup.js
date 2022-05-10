@@ -1,10 +1,10 @@
 const mysql = require('mysql')
-
+require('dotenv').config
 
 const cred = {
-    host:'127.0.0.1',
-    user : 'root',
-    password : '12345678'
+    host:`${process.env.DBHOST}`,
+    user : `${process.env.DBUSER}`,
+    password : `${process.env.DBPASS}`
 }
 
 const con = mysql.createPool(cred);

@@ -1,45 +1,15 @@
-const jwt = require('jsonwebtoken');
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
 require('dotenv').config()
 
-exports.auth = (req,res,next)=>{
-    const header = req.headers.authorization
+module.exports = (passport) => {
+    var opts = {}
+    opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+    opts.secretOrKey = process.env.JWT_KEY;
 
-    if(!header){
-        res.status(401).json({
-            status:false,
-            err:"Header not found"
-        })
-    }
-    else{
-        try {
-            const token = header.split(' ')[1];
-            if(token){
-                jwt.verify(token,process.env.JWT_KEY,function(err,user){
-                    if(err){
-                        console.log(err);
-                        res.status(401).json({
-                            status:false,
-                            err:err
-                        })
-                    }
-                    else{
-                        req.user = user;
-                        next()
-                    }
-                })
-            }  
-            else{
-                req.status(401).json({
-                    status:false,
-                    err:"User Invalid"
-                })
-            }
-        } catch (error) {
-            console.log(err);
-            res.status(401).json({
-                status:false,
-                err:error
-            })
-        }
-    }
+    passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
+        console.log(jwt_payload);
+
+        done(null, jwt_payload)
+    }));
 }

@@ -14,7 +14,7 @@ const eplMiddleware  = epl({
     useLevel : "http"
 })
 
-port = 3000 || process.env.PORT
+port = process.env.PORT
 app.use(eplMiddleware);
 
 app.get('/api/v1' , (req,res)=>{
@@ -23,6 +23,6 @@ app.get('/api/v1' , (req,res)=>{
 
 
 app.listen(`${port}` , ()=>{
-    console.log(`http://localhost/api/v1:${port}`)
+    console.log(`http://localhost:${port}/api/v1`)
 })
 }
