@@ -12,6 +12,3 @@ passport.use(new GoogleStrategy({
     });
   }
 ));
-
-Hello World
-jhdehdehdieded
