@@ -5,7 +5,6 @@ require('dotenv').config()
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_PASS,
-    callbackURL: "http://www.example.com/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
     User.findOrCreate({ googleId: profile.id }, function (err, user) {
@@ -13,3 +12,6 @@ passport.use(new GoogleStrategy({
     });
   }
 ));
+
+Hello World
+jhdehdehdieded
