@@ -1,6 +1,5 @@
 const pino = require('pino')
 
-
 const levels = {
     http: 10,
     debug: 20,
@@ -12,9 +11,9 @@ const levels = {
   
   // create a Pino logger
   const logger = pino({
+    level: "http",
     customLevels: levels,
     useOnlyCustomLevels: true,
-    level: "http"
   });
   
   module.exports =  logger;
