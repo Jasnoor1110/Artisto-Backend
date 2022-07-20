@@ -1,11 +1,10 @@
 const jwt = require('jsonwebtoken')
+const logger = require('../setups/pino.setup')
 require('dotenv').config()
 
 // Creating Auth Middleware
 exports.auth = async(req,res,next)=>{
     const authHeader = req.headers.authorization
-    // console.log(authHeader)
-    // console.log(token)
     
     try {
     if(!authHeader){
@@ -20,10 +19,10 @@ exports.auth = async(req,res,next)=>{
         if(token){
         jwt.verify(token,`${process.env.JWT_SECRET}`, function(err,user){
             if(err){
-                console.log(err)
-                res.status(401).json({
+                logger.error("Request Errored")
+                return res.status(401).json({
                     success:false,
-                    err:"Verification Failed"
+                    err:`${error}` || "Verification Failed"
                 })
             }
             else{
@@ -33,17 +32,18 @@ exports.auth = async(req,res,next)=>{
         })
     }
     else{
-        res.status(401).json({
+        logger.error("Request Errored")
+        return res.status(401).json({
             status:false,
             messgae:"Unauthorized"
         })
     }
     }
     } catch (error) {
-        console.log(error)
-        res.status(401).json({
+        logger.error("Request Errored")
+        return res.status(401).json({
             success:false,
-            err:error
+            err:`${error}`
         })
     }
 

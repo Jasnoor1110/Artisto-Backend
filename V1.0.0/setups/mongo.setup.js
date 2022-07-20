@@ -11,7 +11,6 @@ exports.checkRegistration = async (collection, email) => {
         var dbo = db.db(process.env.DBNAME);
         dbo.collection(`${collection}`).findOne({"email" : `${email}`}, function (err, result) {
           if (err) throw err;
-          // console.log(result);
           obj.push(result);
           res(obj);
           db.close();

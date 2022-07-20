@@ -5,7 +5,7 @@ exports.GenerateOTP = () => {
 }
 
 exports.verify = (token,verifiedToken)=>{
-    if(token === verifiedToken){
+    if(Number(token) === Number(verifiedToken)){
         return true;
     }
     else return false;

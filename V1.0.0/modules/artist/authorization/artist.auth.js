@@ -1,4 +1,3 @@
-const app = require('express')()
 const cryptoJS = require('crypto-js')
 const reg = require('../../../setups/mongo.setup')
 const valid = require('../../../utils/sendOTP')
@@ -7,14 +6,43 @@ const jwt = require('jsonwebtoken')
 const logger = require('../../../setups/pino.setup')
 require('dotenv').config()
 
+exports.verifyEmail = async (req, res) => {
+    try {
+        const { otp ,email} = req.body;
+
+        const prev_email = await reg.checkOTP('validation', email);
+        
+        const validate = valid.verify(otp,prev_email[0].otp)
+        if(!validate){
+            logger.error("Request Errored")
+            return res.status(401).json({
+                status:false,
+                message:"OTP Invalid"
+            })
+        }
+
+        else{
+            logger.info("Request Completed")
+            return res.status(200).json({
+                status:true,
+                message:"Email verified successfully"
+            })
+        }
+        
+    } catch (error) {
+        logger.error("Errored");
+        return res.status(401).json({
+            status: false,
+            err: `${error}`
+        })
+    }
+}
 exports.sendOTP = async (req, res) => {
     try {
         const { email } = req.body;
 
         const prev_email = await reg.checkOTP('validation', email);
 
-        console.log(prev_email);
-        
         if (prev_email[0] != null) {
             // logger.error('Request Errored');
             return res.status(401).json({
@@ -78,8 +106,8 @@ exports.newArtist = async (req, res) => {
 
         if (x[0] != null) {
             return res.status(401).json({
-                sttaus: false,
-                message: "User alrea1dy exist."
+                status: false,
+                message: "User already exist."
             })
         }
         if (password !== passwordCheck) {
@@ -177,3 +205,4 @@ exports.loginArtist = async (req, res) => {
         })
     }
 }
+
