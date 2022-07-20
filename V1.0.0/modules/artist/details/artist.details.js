@@ -26,7 +26,7 @@ exports.getDetails = async (req, res) => {
 exports.updateDetails = async (req, res) => {
     try {
         const id = req.user.id;
-        const { username, password, passwordCheck, email, dob, gender, category } = req.body;
+        const { username, password, email, dob, gender, category } = req.body;
 
         if (!req.body) {
             logger.error("Request Errored")
@@ -36,14 +36,48 @@ exports.updateDetails = async (req, res) => {
             })
         }
         
-        if (!username || !password || !passwordCheck || !email || !dob || !gender || !category) {
+        if (!username || !password || !dob || !gender || !category) {
             logger.error("Request Errored")
             return res.status(401).json({
                 status: false,
                 message: "Field Empty. Please fill all the details"
             })
         }
+
+        const ID = {
+            email:id
+        }
+
+        const key = {
+            $set : {
+                username:username,
+                dob:dob,
+                gender:gender,
+                category:category
+            }
+        }
+
+        const d = reg.updateArtist('artist',key,ID);
+
+        if(!d){
+            logger.error("Request Completed")
+            return res.status(401).json({
+                status:false,
+                err:"Artist not updated"
+            })
+        }
+        else{
+            logger.info("Request Completed");
+            return res.status(200).json({
+                status:true,
+                message:"Updated Successfully"
+            })
+        }
     } catch (error) {
-        
+        logger.error("Request Errored")
+        return res.status(401).json({
+            status:false,
+            err:`${error}`
+        })
     }
 }

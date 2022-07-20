@@ -27,6 +27,22 @@ exports.addArtist = async (collection, key) => {
         var dbo = db.db(process.env.DBNAME);
         dbo.collection(`${collection}`).insertOne(key, function (err, result) {
           if (err) throw err;
+          console.log(result);
+          res(result);
+          db.close();
+        });
+      });
+    })
+  }
+exports.updateArtist = async (collection, key, id) => {
+
+    return new Promise((res, rej) => {
+  
+      MongoClient.connect(url, function (err, db) {
+        if (err) rej(err);
+        var dbo = db.db(process.env.DBNAME);
+        dbo.collection(`${collection}`).updateOne(id, key, function (err, result) {
+          if (err) throw err;
           // console.log(result);
           res(result);
           db.close();
@@ -67,3 +83,4 @@ exports.checkOTP = async (collection, email) => {
       });
     })
   }
+
